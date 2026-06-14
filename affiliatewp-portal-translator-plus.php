@@ -40,7 +40,7 @@ class AffiliateWP_Portal_Translator_Plus {
         }
 
         if ( $this->get_option( 'enable_vnd' ) ) {
-            add_filter( 'affwp_currency', '__return_false' );
+            add_filter( 'affwp_currency', array( $this, 'vnd_currency_code' ) );
             add_filter( 'affwp_format_amount', array( $this, 'vnd_format_amount' ), 10, 5 );
             add_filter( 'affwp_vnd_currency_filter_before', array( $this, 'vnd_currency_filter' ), 10, 3 );
             add_filter( 'affwp_vnd_currency_filter_after', array( $this, 'vnd_currency_filter' ), 10, 3 );
@@ -65,7 +65,7 @@ class AffiliateWP_Portal_Translator_Plus {
         remove_filter( 'ngettext', array( $this, 'tn_affwp' ) );
         remove_filter( 'gettext_with_context', array( $this, 'tc_affwp' ) );
         remove_filter( 'gettext_with_context', array( $this, 'tc_portal' ) );
-        remove_filter( 'affwp_currency', '__return_false' );
+        remove_filter( 'affwp_currency', array( $this, 'vnd_currency_code' ) );
         remove_filter( 'affwp_format_amount', array( $this, 'vnd_format_amount' ) );
         remove_filter( 'affwp_vnd_currency_filter_before', array( $this, 'vnd_currency_filter' ) );
         remove_filter( 'affwp_vnd_currency_filter_after', array( $this, 'vnd_currency_filter' ) );
@@ -96,6 +96,10 @@ class AffiliateWP_Portal_Translator_Plus {
         add_filter( 'ngettext', array( $this, 'tn_affwp' ), 10, 5 );
         add_filter( 'gettext_with_context', array( $this, 'tc_affwp' ), 10, 4 );
         add_filter( 'gettext_with_context', array( $this, 'tc_portal' ), 10, 4 );
+    }
+
+    public function vnd_currency_code() {
+        return 'VND';
     }
 
     public function vnd_format_amount( $formatted, $amount, $decimals, $decimal_sep, $thousands_sep ) {
