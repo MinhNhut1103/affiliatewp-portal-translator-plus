@@ -3,7 +3,7 @@
  * Plugin Name: AffiliateWP Portal Translator Plus
  * Plugin URI: https://dominhnhut.com
  * Description: Dịch toàn bộ cổng thông tin AffiliateWP (Affiliate Portal) sang tiếng Việt + chuyển đổi định dạng tiền tệ VNĐ.
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: Đỗ Minh Nhựt
  * Author URI: https://dominhnhut.com
  * Text Domain: affiliatewp-portal-translator-plus
@@ -109,7 +109,10 @@ class AffiliateWP_Portal_Translator_Plus {
     }
 
     public function vnd_currency_filter( $formatted, $currency, $amount ) {
-        return number_format( (float) $amount, 0, ',', '.' ) . '₫';
+        if ( preg_match( '/[.,]\d{3}/', $amount ) ) {
+            return $amount . '₫';
+        }
+        return number_format( floor( (float) $amount ), 0, ',', '.' ) . '₫';
     }
 
     public function portal_font_fix() {
