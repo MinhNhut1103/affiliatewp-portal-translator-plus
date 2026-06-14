@@ -46,6 +46,8 @@ class AffiliateWP_Portal_Translator_Plus {
             add_filter( 'affwp_vnd_currency_filter_after', array( $this, 'vnd_currency_filter' ), 10, 3 );
             add_filter( 'affwp_decimal_count', '__return_zero' );
         }
+
+        add_action( 'wp_head', array( $this, 'portal_font_fix' ) );
     }
 
     public function check_requirements() {
@@ -108,6 +110,17 @@ class AffiliateWP_Portal_Translator_Plus {
 
     public function vnd_currency_filter( $formatted, $currency, $amount ) {
         return $amount . '₫';
+    }
+
+    public function portal_font_fix() {
+        if ( ! class_exists( 'AffiliateWP_Affiliate_Portal' ) ) {
+            return;
+        }
+        ?>
+        <style>
+            .affwp-portal * { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif; }
+        </style>
+        <?php
     }
 
     public function add_settings_page() {
@@ -413,6 +426,8 @@ class AffiliateWP_Portal_Translator_Plus {
             'Creatives'                      => 'Ấn phẩm',
             'Coupons'                        => 'Mã giảm giá',
             'Settings'                       => 'Cài đặt',
+
+            'Back to site'                   => 'Quay lại trang',
 
             'Last 30 days'                   => '30 ngày qua',
             'All-time'                       => 'Tổng quan',
